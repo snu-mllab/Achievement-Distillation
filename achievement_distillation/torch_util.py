@@ -16,7 +16,7 @@ class FanInInitReLULayer(nn.Module):
         batch_norm_kwargs: Dict = {},
         group_norm_groups: Optional[int] = None,
         layer_norm: bool = False,
-        use_activation=True,
+        use_activation: bool = True,
         **layer_kwargs,
     ):
         super().__init__()

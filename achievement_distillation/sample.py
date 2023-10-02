@@ -1,5 +1,4 @@
-from typing import Dict, Sequence, Union
-
+from typing import Dict
 import numpy as np
 
 from achievement_distillation.wrapper import VecPyTorch

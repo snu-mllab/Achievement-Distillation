@@ -229,7 +229,6 @@ class Buffer:
                     "neg_old_states": neg_old_states[inds].cuda(),
                     "neg_old_vtargs": neg_old_vtargs[inds].cuda(),
                 }
-
                 yield batch
 
     def get_match_data_loader(
@@ -351,7 +350,6 @@ class Buffer:
                     "old_states": old_states[inds].cuda(),
                     "old_vtargs": old_vtargs[inds].cuda(),
                 }
-
                 yield batch
 
 
@@ -441,7 +439,7 @@ class PPOADAlgorithm(BaseAlgorithm):
         vf_loss_epoch /= nupdate
         entropy_epoch /= nupdate
 
-        # Define training stats
+        # Define train stats
         train_stats = {
             "pi_loss": pi_loss_epoch,
             "vf_loss": vf_loss_epoch,
@@ -535,7 +533,7 @@ class PPOADAlgorithm(BaseAlgorithm):
             pi_dist_epoch /= match_nupdate + pred_nupdate
             vf_dist_epoch /= match_nupdate + pred_nupdate
 
-            # Define aux training stats
+            # Define aux train stats
             aux_train_stats = {
                 "match_loss": match_loss_epoch,
                 "pred_loss": pred_loss_epoch,
@@ -543,7 +541,7 @@ class PPOADAlgorithm(BaseAlgorithm):
                 "vf_dist": vf_dist_epoch,
             }
 
-            # Update training stats
+            # Update train stats
             train_stats.update(aux_train_stats)
 
         return train_stats

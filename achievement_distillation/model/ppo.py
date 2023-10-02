@@ -127,7 +127,7 @@ class PPOModel(BaseModel):
         # Compute entropy
         entropy = self.pi_head.entropy(pi_logits).mean()
 
-        # compute value loss
+        # Compute value loss
         vpreds = outputs["vpreds"]
         vf_loss = self.vf_head.mse_loss(vpreds, vtargs).mean()
 

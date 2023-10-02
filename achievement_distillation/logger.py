@@ -1,6 +1,6 @@
 import logging
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 
 class Logger:
@@ -11,7 +11,7 @@ class Logger:
         name: str,
         use_wandb: bool = True,
         use_python_logger: bool = False,
-        out_dir=None,
+        out_dir: Optional[str] = None,
     ):
         if out_dir is not None:
             path = Path(out_dir)

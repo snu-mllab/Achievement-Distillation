@@ -13,4 +13,4 @@ class BaseAlgorithm(abc.ABC):
 
     @abc.abstractclassmethod
     def update(self, storage: RolloutStorage) -> Dict[str, th.Tensor]:
-        raise NotImplementedError
+        pass
