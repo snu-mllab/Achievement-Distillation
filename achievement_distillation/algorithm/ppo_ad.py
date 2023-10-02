@@ -253,7 +253,9 @@ class Buffer:
 
             # Compute source states
             with th.no_grad():
-                states_s = model.get_states(goal_obs_s.cuda(), goal_next_obs_s.cuda())
+                goal_obs_s = goal_obs_s.cuda()
+                goal_next_obs_s = goal_next_obs_s.cuda()
+                states_s = model.get_states(goal_obs_s, goal_next_obs_s)
 
             # Sample trajectories
             anc_goal_obs = []
@@ -276,10 +278,9 @@ class Buffer:
 
                 # Compute target states
                 with th.no_grad():
-                    states_t = model.get_states(
-                        goal_obs_t.cuda(),
-                        goal_next_obs_t.cuda(),
-                    )
+                    goal_obs_t = goal_obs_t.cuda()
+                    goal_next_obs_t = goal_next_obs_t.cuda()
+                    states_t = model.get_states(goal_obs_t, goal_next_obs_t)
 
                 # Match source and target states
                 a = np.ones(len(states_s))
