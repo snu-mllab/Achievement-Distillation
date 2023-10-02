@@ -18,7 +18,8 @@ class PPOAlgorithm(BaseAlgorithm):
         lr: float,
         max_grad_norm: float,
     ):
-        super().__init__(model=model)
+        super().__init__(model)
+        self.model: PPOModel
 
         # PPO params
         self.clip_param = clip_param

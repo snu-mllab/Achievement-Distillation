@@ -228,7 +228,7 @@ class PPOADModel(PPOModel):
         old_states: th.Tensor,
         old_vtargs: th.Tensor,
         old_model: PPOADModel,
-    ):
+    ) -> Dict[str, th.Tensor]:
         # Process anchor
         anc_states = self.get_states(anc_goal_obs, anc_goal_next_obs)
 
