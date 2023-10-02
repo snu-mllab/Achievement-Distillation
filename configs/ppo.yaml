@@ -1,0 +1,31 @@
+save_freq: 50
+
+nstep: 512
+nproc: 8
+nepoch: 250
+gamma: 0.95
+gae_lambda: 0.65
+
+model_cls: PPOModel
+model_kwargs:
+  hidsize: 1024
+  impala_kwargs:
+    chans: [64, 128, 128]
+    outsize: 256
+    nblock: 2
+    post_pool_groups: 1
+    init_norm_kwargs:
+      batch_norm: False
+      group_norm_groups: 1
+  dense_init_norm_kwargs:
+    layer_norm: True
+
+algorithm_cls: PPOAlgorithm
+algorithm_kwargs:
+  ppo_nepoch: 3
+  ppo_nbatch: 8
+  clip_param: 0.2
+  vf_loss_coef: 0.5
+  ent_coef: 0.01
+  lr: 3.0e-4
+  max_grad_norm: 0.5
