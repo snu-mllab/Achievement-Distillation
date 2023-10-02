@@ -111,22 +111,20 @@ class PPOADModel(PPOModel):
         return latents
 
     def get_states(self, goal_obs: th.Tensor, goal_next_obs: th.Tensor) -> th.Tensor:
-        # Get indices for zero obs
+        # Get zero obs and zero next obs
         batch_size = goal_obs.shape[0]
+        zero_obs_conds = goal_obs.reshape(batch_size, -1) == 0
+        zero_obs_conds = zero_obs_conds.all(dim=-1, keepdim=True)
+        zero_next_obs_conds = goal_next_obs.reshape(batch_size, -1) == 0
+        zero_next_obs_conds = zero_next_obs_conds.all(dim=-1, keepdim=True)
 
-        zero_obs_masks = (goal_obs.reshape(batch_size, -1) == 0).all(dim=-1)
-        zero_obs_inds = zero_obs_masks.nonzero().squeeze(dim=-1)
-
-        zero_next_obs_masks = (goal_next_obs.reshape(batch_size, -1) == 0).all(dim=-1)
-        zero_next_obs_inds = zero_next_obs_masks.nonzero().squeeze(dim=-1)
-
-        # Get goal and next goal latents
+        # Get goal latents and next goal latents
         goal_latents = self.encode(goal_obs)
         goal_next_latents = self.encode(goal_next_obs)
 
         # Mask out latents to zeros
-        goal_latents[zero_obs_inds] = 0
-        goal_next_latents[zero_next_obs_inds] = 0
+        goal_latents = th.where(zero_obs_conds, 0, goal_latents)
+        goal_next_latents = th.where(zero_next_obs_conds, 0, goal_next_latents)
 
         # Get states
         states = goal_next_latents - goal_latents

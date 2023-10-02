@@ -74,22 +74,23 @@ class RolloutStorage:
         # Update timesteps
         timesteps = prev_timesteps + 1
 
-        # Update states if succeeded
-        success_conds = (successes != prev_successes).any(dim=1, keepdim=True).float()
+        # Update states if new achievment is unlocked
+        success_conds = successes != prev_successes
+        success_conds = success_conds.any(dim=-1, keepdim=True)
         if success_conds.any():
             with th.no_grad():
                 next_latents = model.encode(obs)
             states = next_latents - latents
             states = F.normalize(states, dim=-1)
-            states = (1 - success_conds) * prev_states + success_conds * states
+            states = th.where(success_conds, states, prev_states)
         else:
             states = prev_states
 
-        # Reset successes, timesteps, and states if done
-        done_conds = 1 - masks
-        successes = (1 - done_conds) * successes + done_conds * th.zeros_like(successes)
-        timesteps = (1 - done_conds) * timesteps + done_conds * th.zeros_like(timesteps)
-        states = (1 - done_conds) * states + done_conds * th.zeros_like(states)
+        # Update successes, timesteps, and states if done
+        done_conds = masks == 0
+        successes = th.where(done_conds, 0, successes)
+        timesteps = th.where(done_conds, 0, timesteps)
+        states = th.where(done_conds, 0, states)
 
         # Update tensors
         self.obs[self.step + 1].copy_(obs)
