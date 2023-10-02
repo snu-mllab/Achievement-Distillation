@@ -110,7 +110,6 @@ class PPOADModel(PPOModel):
 
         return latents
 
-    @th.no_grad()
     def get_states(self, goal_obs: th.Tensor, goal_next_obs: th.Tensor) -> th.Tensor:
         # Get indices for zero obs
         batch_size = goal_obs.shape[0]
