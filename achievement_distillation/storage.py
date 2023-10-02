@@ -114,7 +114,7 @@ class RolloutStorage:
         self.states[0].copy_(self.states[-1])
 
         # Reset step
-        self.steps = 0
+        self.step = 0
 
     def compute_returns(self, gamma: float, gae_lambda: float):
         # Compute return
