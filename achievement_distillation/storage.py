@@ -118,7 +118,7 @@ class RolloutStorage:
         self.step = 0
 
     def compute_returns(self, gamma: float, gae_lambda: float):
-        # Compute return
+        # Compute returns
         gae = 0
         for step in reversed(range(self.rewards.shape[0])):
             delta = (
@@ -130,7 +130,7 @@ class RolloutStorage:
             self.returns[step] = gae + self.vpreds[step]
             self.advs[step] = gae
 
-        # Compute advantage
+        # Compute advantages
         self.advs = (self.advs - self.advs.mean()) / (self.advs.std() + 1e-8)
 
     def get_data_loader(self, nbatch: int) -> Iterator[Dict[str, th.Tensor]]:

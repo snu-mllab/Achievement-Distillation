@@ -118,7 +118,7 @@ class PPOADModel(PPOModel):
         zero_next_obs_conds = goal_next_obs.reshape(batch_size, -1) == 0
         zero_next_obs_conds = zero_next_obs_conds.all(dim=-1, keepdim=True)
 
-        # Get goal latents and next goal latents
+        # Get goal latents and goal next latents
         goal_latents = self.encode(goal_obs)
         goal_next_latents = self.encode(goal_next_obs)
 
