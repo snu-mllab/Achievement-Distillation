@@ -130,7 +130,7 @@ class ImpalaCNN(nn.Module):
                 curshape[0],
                 nblock=nblock,
                 outchan=outchan,
-                init_scale=1 / math.sqrt(len(chans)),
+                init_scale=1.0 / math.sqrt(len(chans)),
                 init_norm_kwargs=init_norm_kwargs,
                 first_conv_norm=first_conv_norm if i == 0 else True,
                 **kwargs,

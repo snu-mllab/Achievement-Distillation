@@ -140,7 +140,7 @@ class Buffer:
         # Get next goal obs and next goal next obs
         for i, (start, end) in enumerate(zip(goal_steps[:-1], goal_steps[1:])):
             if i == len(goal_steps) - 2:
-                # Zero next obs for no next goal
+                # Zero next obs if no next goal
                 next_goal_ob = obs[-1].unsqueeze(dim=0)
                 next_goal_next_ob = th.zeros_like(obs[-1]).unsqueeze(dim=0)
             else:
@@ -213,6 +213,7 @@ class Buffer:
             sampler = SubsetRandomSampler(range(ndata))
             sampler = BatchSampler(sampler, batch_size=max_batch_size, drop_last=False)
 
+            # Sample batch
             for inds in sampler:
                 batch = {
                     # Anchor
@@ -257,7 +258,7 @@ class Buffer:
                 goal_next_obs_s = goal_next_obs_s.cuda()
                 states_s = model.get_states(goal_obs_s, goal_next_obs_s)
 
-            # Sample trajectories
+            # Sample target trajectories
             anc_goal_obs = []
             anc_goal_next_obs = []
             pos_goal_obs = []
@@ -268,6 +269,7 @@ class Buffer:
             inds = th.randperm(ntraj - 1)[:16]
 
             for j in inds:
+                # Avoid sampling same trajectory
                 if j >= i:
                     j += 1
 
@@ -282,7 +284,7 @@ class Buffer:
                     goal_next_obs_t = goal_next_obs_t.cuda()
                     states_t = model.get_states(goal_obs_t, goal_next_obs_t)
 
-                # Match source and target states
+                # Match source and target goals
                 a = np.ones(len(states_s))
                 b = np.ones(len(states_t))
                 M = 1 - th.einsum("ik,jk->ij", states_s, states_t).cpu().numpy()
