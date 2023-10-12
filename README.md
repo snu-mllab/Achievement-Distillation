@@ -40,4 +40,6 @@ If you find this code useful, please cite this work.
 }
 ```
 
-# Credit
+## Credit
+- https://github.com/openai/Video-Pre-Training
+- https://github.com/snu-mllab/DCPG
