@@ -2,6 +2,9 @@
 
 This is the code for the paper [Discovering Hierarchical Achievements in Reinforcement Learning via Contrastive Learning](https://arxiv.org/abs/2307.03486) accepted to NeurIPS 2023.
 
+<embed src="figures/overview.pdf" type="application/pdf" width="500">
+
+
 ## Installation
 
 ```
