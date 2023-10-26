@@ -40,8 +40,7 @@ def main(args):
     device = th.device("cuda:0" if cuda else "cpu")
 
     # Create logger
-    timestamp = datetime.datetime.now().strftime("%y%m%d-%H%M%S")
-    group_name = f"{args.exp_name}-{timestamp}"
+    group_name = f"{args.exp_name}-{args.timestamp}"
     run_name = f"{group_name}-s{args.seed:02}"
 
     if args.log_stats:
@@ -160,6 +159,7 @@ if __name__ == "__main__":
     # Parse arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("--exp_name", type=str, required=True)
+    parser.add_argument("--timestamp", type=str, default="debug")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--log_stats", action="store_true")
     parser.add_argument("--save_ckpt", action="store_true")

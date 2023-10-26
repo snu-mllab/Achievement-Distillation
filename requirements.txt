@@ -3,5 +3,6 @@ torch==2.0.1
 POT==0.9.1
 stable-baselines3==1.8.0
 crafter==1.8.1
+ruamel.yaml==0.17.40
 PyYAML==6.0.1
 wandb==0.15.11

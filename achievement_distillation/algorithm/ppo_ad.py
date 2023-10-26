@@ -36,15 +36,17 @@ class Buffer:
         states = th.cat([seg["states"][:-1] for seg in self.segs], dim=0)
         returns = th.cat([seg["returns"] for seg in self.segs], dim=0)
         masks = th.cat([seg["masks"][:-1] for seg in self.segs], dim=0)
+        rewards = th.cat([seg["rewards"] for seg in self.segs], dim=0)
         successes = th.cat([seg["successes"][:-1] for seg in self.segs], dim=0)
 
-        # Sanity check
+        # Sanity check (please report if assertion occurs)
         assert (
             len(obs)
             == len(actions)
             == len(states)
             == len(returns)
             == len(masks)
+            == len(rewards)
             == len(successes)
         )
 
@@ -58,6 +60,7 @@ class Buffer:
             states_p = states[:, p]
             returns_p = returns[:, p]
             masks_p = masks[:, p]
+            rewards_p = rewards[:, p]
             successes_p = successes[:, p]
 
             # Get done steps
@@ -72,6 +75,7 @@ class Buffer:
                 actions_t = actions_p[start:end]
                 states_t = states_p[start:end]
                 returns_t = returns_p[start:end]
+                rewards_t = rewards_p[start:end]
                 successes_t = successes_p[start:end]
 
                 # Store trajectory
@@ -80,6 +84,7 @@ class Buffer:
                     "actions": actions_t,
                     "old_states": states_t,
                     "old_vtargs": returns_t,
+                    "rewards": rewards_t,
                     "successes": successes_t,
                 }
                 self.trajs.append(traj)
@@ -87,12 +92,13 @@ class Buffer:
     def preprocess_trajs(self):
         # Loop over trajectories
         for traj in self.trajs:
-            # Get obs and successes
+            # Get obs, reward, and successes
             obs = traj["obs"]
+            rewards = traj["rewards"]
             successes = traj["successes"]
 
             # Get goals
-            goals = self.get_goals(obs, successes)
+            goals = self.get_goals(obs, rewards, successes)
 
             # Update trajectory
             traj.update(goals)
@@ -100,12 +106,22 @@ class Buffer:
     def get_goals(
         self,
         obs: th.Tensor,
+        rewards: th.Tensor,
         successes: th.Tensor,
     ) -> Dict[str, th.Tensor]:
-        # Get goal steps
-        goal_conds = (successes[1:] != successes[:-1]).any(dim=-1)
-        goal_steps = goal_conds.nonzero().squeeze(dim=-1)
-        goal_steps = goal_steps + 1
+        # Get goal steps from rewards
+        goal_conds_r = (rewards[:-1] > 0.1).squeeze(dim=-1)
+        goal_steps_r = goal_conds_r.nonzero().squeeze(dim=-1)
+        goal_steps_r = goal_steps_r + 1
+
+        # Get goal steps from successes
+        goal_conds_s = (successes[1:] != successes[:-1]).any(dim=-1)
+        goal_steps_s = goal_conds_s.nonzero().squeeze(dim=-1)
+        goal_steps_s = goal_steps_s + 1
+
+        # Sanity check (please report if assertion occurs)
+        assert th.equal(goal_steps_r, goal_steps_s)
+        goal_steps = goal_steps_r
 
         # Get goal obs and goal next obs
         if len(goal_steps) == 0:
@@ -188,7 +204,7 @@ class Buffer:
                 obs,
             )
 
-            # Sanity check
+            # Sanity check (please report if assertion occurs)
             assert len(obs) == len(next_goal_obs)
 
             # Get anchor
@@ -403,7 +419,7 @@ class PPOADAlgorithm(BaseAlgorithm):
         self.model.train()
 
         # Insert data to buffer
-        keys = ["obs", "actions", "states", "returns", "masks", "successes"]
+        keys = ["obs", "actions", "states", "returns", "masks", "rewards", "successes"]
         seg = {key: storage[key].cpu() for key in keys}
         self.buffer.insert(seg)
 
