@@ -30,7 +30,7 @@ PPO + Achievement Distillation (ours)
 python train.py --exp_name ppo_ad --log_stats
 ```
 
-If you are working in an environment that uses the Slurm Workload Manager, you can submit your job using `slurm.py`. In this setup, the system automatically assigns a timestamp that corresponds to the actual start time of your job.
+If you are working in an environment that utilizes the Slurm Workload Manager, you can submit your job using `slurm.py`. In this setup, the system automatically assigns a timestamp that corresponds to the actual start time of your job.
 
 
 ## Citation
