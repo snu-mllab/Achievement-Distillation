@@ -2,7 +2,8 @@
 
 This is the code for the paper [Discovering Hierarchical Achievements in Reinforcement Learning via Contrastive Learning](https://arxiv.org/abs/2307.03486) accepted to NeurIPS 2023.
 
-![Overview](figures/overview.png)
+<img src="figures/overview.png" width="800">
+<img src="figures/result.png" width="600">
 
 ## Installation
 
@@ -17,7 +18,9 @@ pip install -e .
 
 ## Usage
 
-PPO (baseline)
+To execute `train.py` in a Bash environment, you can use the following commands. By default, the system will assign the timestamp `debug`. 
+
+PPO
 ```
 python train.py --exp_name ppo --log_stats
 ```
@@ -26,6 +29,9 @@ PPO + Achievement Distillation (ours)
 ```
 python train.py --exp_name ppo_ad --log_stats
 ```
+
+If you are working in an environment that uses the Slurm Workload Manager, you can submit your job using `slurm.py`. In this setup, the system automatically assigns a timestamp that corresponds to the actual start time of your job.
+
 
 ## Citation
 
