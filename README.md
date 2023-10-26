@@ -18,7 +18,7 @@ pip install -e .
 
 ## Usage
 
-To execute `train.py` in a Bash environment, you can use the following commands. By default, the system will assign the timestamp `debug`. 
+To execute `train.py` in a Bash environment, you can use the following commands. The system will set the timestamp to `debug` by default.
 
 PPO
 ```
