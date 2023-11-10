@@ -18,7 +18,7 @@ pip install -e .
 
 ## Usage
 
-To execute `train.py` in a Bash environment, you can use the following commands. The system will set the timestamp to `debug` by default.
+If you are working in a Bash environment, you can use the following commands. The system will set the timestamp to `debug` by default.
 
 PPO
 ```
@@ -32,6 +32,10 @@ python train.py --exp_name ppo_ad --log_stats
 
 If you are working in an environment that utilizes the Slurm Workload Manager, you can submit your job using `submit.py`. In this setup, the system automatically assigns a timestamp that corresponds to the actual start time of your job.
 
+
+## Achivement Distillation with QR-DQN
+
+You can run Achievmenet Distillation with QR-DQN in the `qrdqn` branch.
 
 ## Citation
 
