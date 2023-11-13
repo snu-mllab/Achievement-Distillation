@@ -83,8 +83,8 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--exp_name", type=str, default="ppo_ad")
-    parser.add_argument("--timestamp", type=str, default="debug")
+    parser.add_argument("--exp_name", type=str, required=True)
+    parser.add_argument("--timestamp", type=str, required=True)
     parser.add_argument("--train_seed", type=int, default=0)
     parser.add_argument("--eval_seed", type=int, default=123)
     args = parser.parse_args()
