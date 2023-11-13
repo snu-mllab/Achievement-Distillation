@@ -35,7 +35,7 @@ If you are working in an environment that utilizes the Slurm Workload Manager, y
 
 ## Evaluation
 
-If you want to evaluate the agent on a new environment, you can use the following command. This will create a video displaying the agent's behavior.
+If you want to evaluate an agent on a new environment, you can use the following command. This will create a video displaying the agent's behavior.
 
 ```
 python eval.py --exp_name [your exp name] --timestamp [your timestamp]
