@@ -41,10 +41,6 @@ If you want to evaluate the agent on a new environment, you can use the followin
 python eval.py --exp_name [your exp name] --timestamp [your timestamp]
 ```
 
-## Achivement Distillation with QR-DQN
-
-You can run Achievmenet Distillation with QR-DQN in the `qrdqn` branch.
-
 ## Citation
 
 If you find this code useful, please cite this work.
