@@ -22,12 +22,12 @@ If you are working in a Bash environment, you can use the following commands. Th
 
 PPO
 ```
-python train.py --exp_name ppo --log_stats
+python train.py --exp_name ppo --log_stats --save_ckpt
 ```
 
 PPO + Achievement Distillation (ours)
 ```
-python train.py --exp_name ppo_ad --log_stats
+python train.py --exp_name ppo_ad --log_stats --save_ckpt
 ```
 
 If you are working in an environment that utilizes the Slurm Workload Manager, you can submit your job using `submit.py`. In this setup, the system automatically assigns a timestamp that corresponds to the actual start time of your job.
