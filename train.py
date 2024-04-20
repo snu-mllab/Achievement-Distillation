@@ -33,6 +33,7 @@ def main(args):
     np.random.seed(args.seed)
     th.manual_seed(args.seed)
     th.cuda.manual_seed_all(args.seed)
+    th.backends.cudnn.benchmark = False
 
     # CUDA setting
     th.set_num_threads(1)
