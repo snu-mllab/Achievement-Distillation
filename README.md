@@ -11,7 +11,7 @@ This is the code for the paper [Discovering Hierarchical Achievements in Reinfor
 conda create --name ad-crafter python=3.10
 conda activate ad-crafter
 
-pip install --upgrade "setuptools==65.7.0" "wheel==0.38.4"
+pip install --upgrade "setuptools==65.7.0" "wheel==0.38.4" "pip==24.0"
 pip install -r requirements.txt
 pip install -e .
 ```
